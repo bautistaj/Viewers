@@ -1,0 +1,32 @@
+{
+  "name": "@ohif/mode-patient-viewer",
+  "version": "1.0.0",
+  "description": "Read-only viewer mode for patients",
+  "author": "OHIF",
+  "license": "MIT",
+  "main": "dist/ohif-mode-patient-viewer.js",
+  "module": "src/index.ts",
+  "keywords": [
+    "ohif-mode"
+  ],
+  "ohif": {
+    "type": "mode"
+  },
+  "peerDependencies": {
+    "@ohif/core": "3.13.0-beta.40",
+    "@ohif/extension-cornerstone": "3.13.0-beta.40",
+    "@ohif/extension-default": "3.13.0-beta.40"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.28.2",
+    "immutability-helper": "^3.1.1"
+  },
+  "devDependencies": {
+    "webpack": "5.105.0",
+    "webpack-merge": "5.10.0"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --config .webpack/webpack.prod.js",
+    "build:package": "yarn run build"
+  }
+}

@@ -16,7 +16,7 @@
     />
     <meta
       name="application-name"
-      content="OHIF Viewer"
+      content="IQ Med Viewer"
     />
     <meta
       name="apple-mobile-web-app-capable"
@@ -28,7 +28,7 @@
     />
     <meta
       name="apple-mobile-web-app-title"
-      content="@ohif/app"
+      content="MedIQ Viewer"
     />
     <meta
       name="msapplication-TileColor"
@@ -47,25 +47,28 @@
       window.PUBLIC_URL = '<%= PUBLIC_URL %>';
     </script>
     <link
-      rel="manifest"
-      href="<%= PUBLIC_URL %>manifest.json"
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="<%= PUBLIC_URL %>assets/favicon-96x96.png"
     />
-
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="<%= PUBLIC_URL %>assets/favicon.svg"
+    />
     <link
       rel="shortcut icon"
       href="<%= PUBLIC_URL %>assets/favicon.ico"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="<%= PUBLIC_URL %>assets/favicon-16x16.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="<%= PUBLIC_URL %>assets/apple-touch-icon.png"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="<%= PUBLIC_URL %>assets/favicon-32x32.png"
+      rel="manifest"
+      href="<%= PUBLIC_URL %>assets/site.webmanifest"
     />
     <link
       rel="apple-touch-icon"
@@ -196,7 +199,7 @@
       src="<%= PUBLIC_URL %>init-service-worker.js"
     ></script>
 
-    <title>OHIF Viewer</title>
+    <title>IQ Med Viewer</title>
 
     <script>
       function browserImportFunction(moduleId) {

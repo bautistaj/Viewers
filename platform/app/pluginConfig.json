@@ -99,6 +99,10 @@
     {
       "packageName": "@ohif/mode-ultrasound-pleura-bline",
       "version": "3.0.0"
+    },
+    {
+      "packageName": "@ohif/mode-patient-viewer",
+      "version": "1.0.0"
     }
   ],
   "public": [

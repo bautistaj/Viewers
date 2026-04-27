@@ -12,25 +12,26 @@
     --neutral: 213 22% 59%;
     --neutral-light: 214 69% 81%;
     --neutral-dark: 214 16% 21%;
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 234 64% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 219 90% 15%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 214 98% 60%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 214 65% 36%;
-    --secondary-foreground: 200 50% 84%;
-    --muted: 234 64% 10%;
-    --muted-foreground: 200 46% 65%;
-    --accent: 217 79% 24%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 236 52% 30%;
-    --ring: 214 98% 60%;
+    /* Phoenix dark navy theme — matches #0f111a body-bg */
+    --background: 229 27% 8%; /* #0f111a — phoenix-body-bg */
+    --foreground: 226 18% 68%; /* #9fa6bc — phoenix-body-color */
+    --card: 225 29% 11%; /* #141824 — phoenix-emphasis-bg */
+    --card-foreground: 214 29% 95%; /* #eff2f6 — phoenix-emphasis-color */
+    --popover: 225 29% 11%; /* #141824 */
+    --popover-foreground: 214 29% 95%;
+    --primary: 222 100% 76%; /* #85a9ff — phoenix-primary (dark) */
+    --primary-foreground: 229 27% 8%;
+    --secondary: 225 20% 24%; /* #31374a — phoenix-secondary-bg */
+    --secondary-foreground: 226 18% 68%;
+    --muted: 220 21% 17%; /* #222834 — phoenix-body-highlight-bg */
+    --muted-foreground: 226 14% 50%; /* #6e7891 — phoenix-gray-600 */
+    --accent: 223 27% 15%; /* #1C2231 — phoenix-primary-bg-subtle */
+    --accent-foreground: 214 29% 95%;
+    --destructive: 8 86% 70%; /* #f48270 — phoenix-danger (dark) */
+    --destructive-foreground: 229 27% 8%;
+    --border: 225 20% 27%; /* #373e53 — phoenix-border-color */
+    --input: 225 20% 24%; /* #31374a */
+    --ring: 222 100% 76%; /* #85a9ff */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -55,25 +56,24 @@
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 234 64% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 214 98% 60%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 236 52% 30%;
-    --ring: 214 98% 60%;
+    --background: 229 27% 8%;
+    --foreground: 226 18% 68%;
+    --card: 225 29% 11%;
+    --card-foreground: 214 29% 95%;
+    --popover: 225 29% 11%;
+    --popover-foreground: 214 29% 95%;
+    --primary: 222 78% 100%;
+    --secondary: 225 20% 24%;
+    --secondary-foreground: 226 18% 68%;
+    --muted: 220 21% 17%;
+    --muted-foreground: 226 14% 50%;
+    --accent: 223 27% 15%;
+    --accent-foreground: 214 29% 95%;
+    --destructive: 8 86% 70%;
+    --destructive-foreground: 229 27% 8%;
+    --border: 225 20% 27%;
+    --input: 225 20% 24%;
+    --ring: 222 100% 76%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -217,6 +217,14 @@
   body {
     @apply !bg-background;
   }
+}
+
+/* Viewport DICOM: mantener negro puro para lectura diagnóstica correcta */
+.viewport-wrapper,
+[data-cy='viewport-pane'],
+.cornerstone-canvas-wrapper,
+.cornerstone-enabled-image {
+  background-color: #000000 !important;
 }
 
 h2.section-header {

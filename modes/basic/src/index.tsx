@@ -289,6 +289,7 @@ export const basicLayout = {
     rightPanels: [cornerstone.segmentation, cornerstone.measurements],
     rightPanelClosed: true,
     rightPanelResizable: true,
+    isReturnEnabled: false,
     viewports: [
       {
         namespace: cornerstone.viewport,

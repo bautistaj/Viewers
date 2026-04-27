@@ -3,7 +3,15 @@
 window.config = {
   name: 'config/default.js',
   routerBasename: null,
-  // whiteLabeling: {},
+  whiteLabeling: {
+    createLogoComponentFn: function (React) {
+      return React.createElement('img', {
+        src: window.PUBLIC_URL + 'mediqv2.png',
+        alt: 'MedIQ',
+        style: { height: '32px', width: 'auto' },
+      });
+    },
+  },
   extensions: [],
   modes: [],
   customizationService: {},

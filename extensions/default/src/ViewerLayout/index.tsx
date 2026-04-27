@@ -28,6 +28,10 @@ function ViewerLayout({
   rightPanelInitialExpandedWidth,
   leftPanelMinimumExpandedWidth,
   rightPanelMinimumExpandedWidth,
+  // Header overrides (optional, set per-mode via layoutTemplate props)
+  isReturnEnabled,
+  showPatientInfo,
+  showMenuOptions,
 }: withAppTypes): React.FunctionComponent {
   const [appConfig] = useAppConfig();
 
@@ -156,6 +160,9 @@ function ViewerLayout({
         extensionManager={extensionManager}
         servicesManager={servicesManager}
         appConfig={appConfig}
+        isReturnEnabled={isReturnEnabled}
+        showPatientInfo={showPatientInfo}
+        showMenuOptions={showMenuOptions}
       />
       <div
         className="relative flex w-full flex-row flex-nowrap items-stretch overflow-hidden bg-background"

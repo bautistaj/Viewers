@@ -10,7 +10,17 @@ import { PatientInfoVisibility } from './HeaderPatientInfo/HeaderPatientInfo';
 import { preserveQueryParameters } from '@ohif/app';
 import { Types } from '@ohif/core';
 
-function ViewerHeader({ appConfig }: withAppTypes<{ appConfig: AppTypes.Config }>) {
+function ViewerHeader({
+  appConfig,
+  isReturnEnabled: isReturnEnabledProp,
+  showPatientInfo: showPatientInfoProp,
+  showMenuOptions = true,
+}: withAppTypes<{
+  appConfig: AppTypes.Config;
+  isReturnEnabled?: boolean;
+  showPatientInfo?: boolean;
+  showMenuOptions?: boolean;
+}>) {
   const { servicesManager, extensionManager, commandsManager } = useSystem();
   const { customizationService } = servicesManager.services;
 
@@ -81,15 +91,23 @@ function ViewerHeader({ appConfig }: withAppTypes<{ appConfig: AppTypes.Config }
     });
   }
 
+  const resolvedIsReturnEnabled =
+    isReturnEnabledProp !== undefined ? isReturnEnabledProp : !!appConfig.showStudyList;
+
+  const resolvedShowPatientInfo =
+    showPatientInfoProp !== undefined
+      ? showPatientInfoProp
+      : appConfig.showPatientInfo !== PatientInfoVisibility.DISABLED;
+
   return (
     <Header
-      menuOptions={menuOptions}
-      isReturnEnabled={!!appConfig.showStudyList}
+      menuOptions={showMenuOptions ? menuOptions : []}
+      isReturnEnabled={resolvedIsReturnEnabled}
       onClickReturnButton={onClickReturnButton}
       WhiteLabeling={appConfig.whiteLabeling}
       Secondary={<Toolbar buttonSection="secondary" />}
       PatientInfo={
-        appConfig.showPatientInfo !== PatientInfoVisibility.DISABLED && (
+        resolvedShowPatientInfo && (
           <HeaderPatientInfo
             servicesManager={servicesManager}
             appConfig={appConfig}
