@@ -2,6 +2,8 @@
 
 Repositorio: `camposbj/ohif-patient-viewer`
 
+> El servidor de produccion corre Linux AMD64. El build debe hacerse para esa plataforma usando `docker buildx`.
+
 ---
 
 ## Requisitos previos
@@ -9,13 +11,19 @@ Repositorio: `camposbj/ohif-patient-viewer`
 - Node >= 18
 - Yarn >= 1.20.0
 - Docker instalado y corriendo
-- Sesión activa en Docker Hub (`docker login`)
+- Sesion activa en Docker Hub (`docker login`)
+- Builder multiarch configurado (solo la primera vez):
+
+```bash
+docker buildx create --name multiarch --use
+docker buildx inspect --bootstrap
+```
 
 ---
 
 ## Flujo completo
 
-### 1. Hacer el build de la app
+### 1. Build de la app
 
 Desde la raiz del monorepo, navega a `platform/app`:
 
@@ -23,7 +31,7 @@ Desde la raiz del monorepo, navega a `platform/app`:
 cd platform/app
 ```
 
-Ejecuta el build de producción:
+Ejecuta el build de produccion:
 
 ```bash
 yarn build:viewer
@@ -49,29 +57,47 @@ ls platform/app/dist/
 
 ---
 
-### 3. Build de la imagen Docker
+### 3. Build y push de la imagen Docker
 
-Reemplaza `X.Y.Z` con la version que vas a publicar (e.g. `2.0.0`):
+Reemplaza `X.Y.Z` con la version que vas a publicar (e.g. `2.0.0`).
+
+Este comando construye para AMD64 (plataforma del servidor) y hace push directamente a Docker Hub:
 
 ```bash
-docker build -f Dockerfile.patient -t camposbj/ohif-patient-viewer:X.Y.Z .
+docker buildx build \
+  --platform linux/amd64 \
+  -f Dockerfile.patient \
+  -t camposbj/ohif-patient-viewer:X.Y.Z \
+  -t camposbj/ohif-patient-viewer:latest \
+  --push \
+  .
 ```
+
+> El flag `--push` sube la imagen directamente. No es necesario correr `docker push` por separado.
 
 ---
 
-### 4. Agregar el tag `latest`
+## Despliegue en el servidor
 
-```bash
-docker tag camposbj/ohif-patient-viewer:X.Y.Z camposbj/ohif-patient-viewer:latest
+Edita el `docker-compose.yml` y actualiza la version:
+
+```yaml
+ohif:
+  image: camposbj/ohif-patient-viewer:X.Y.Z
 ```
 
----
-
-### 5. Push a Docker Hub
+Luego descarga la nueva imagen y reinicia solo el contenedor `ohif`:
 
 ```bash
-docker push camposbj/ohif-patient-viewer:X.Y.Z
-docker push camposbj/ohif-patient-viewer:latest
+docker compose pull ohif
+docker compose up -d ohif
+```
+
+Verifica que quedo corriendo:
+
+```bash
+docker compose ps ohif
+docker compose logs ohif --tail=50
 ```
 
 ---
@@ -87,16 +113,17 @@ docker push camposbj/ohif-patient-viewer:latest
 
 ## Archivos relevantes
 
-| Archivo                  | Descripcion                                      |
-|--------------------------|--------------------------------------------------|
-| `Dockerfile.patient`     | Imagen basada en `nginxinc/nginx-unprivileged`   |
-| `nginx.patient.conf`     | Config de nginx para SPA (history fallback)      |
-| `platform/app/public/config/default.js` | Config del viewer (DICOM server, etc.) |
+| Archivo                                  | Descripcion                                    |
+|------------------------------------------|------------------------------------------------|
+| `Dockerfile.patient`                     | Imagen basada en `nginxinc/nginx-unprivileged` |
+| `nginx.patient.conf`                     | Config de nginx para SPA (history fallback)    |
+| `platform/app/public/config/default.js`  | Config del viewer (DICOM server, etc.)         |
 
 ---
 
 ## Notas
 
-- El `Dockerfile.patient` copia el contenido de `platform/app/dist/` — el build debe existir antes del `docker build`.
-- La imagen corre en el puerto `80` internamente. Mapea segun necesites al hacer `docker run`.
+- El `Dockerfile.patient` copia el contenido de `platform/app/dist/` — el build debe existir antes del `docker buildx build`.
+- La imagen corre en el puerto `80` internamente. El docker-compose lo expone en el `3010`.
 - El nginx tiene comentado un proxy hacia dcm4chee para HTTPS. Ver `nginx.patient.conf` si necesitas activarlo.
+- No incluir la linea `version:` en el `docker-compose.yml` — es obsoleta en versiones modernas de Docker Compose y genera warnings.
